@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "CrcCommandPaletteExtension (Package)": {
+      "commandName": "MsixPackage",
+      "doNotLaunchApp": true
+    },
+    "CrcCommandPaletteExtension (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
