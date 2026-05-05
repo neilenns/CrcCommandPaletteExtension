@@ -10,16 +10,11 @@ using Microsoft.CommandPalette.Extensions;
 namespace CrcCommandPaletteExtension;
 
 [Guid("94245543-fc68-4c8e-b3d5-054c20f9bdd8")]
-public sealed partial class CrcCommandPaletteExtension : IExtension, IDisposable
+public sealed partial class CrcCommandPaletteExtension(ManualResetEvent extensionDisposedEvent) : IExtension, IDisposable
 {
-    private readonly ManualResetEvent _extensionDisposedEvent;
+    private readonly ManualResetEvent _extensionDisposedEvent = extensionDisposedEvent;
 
     private readonly CrcCommandPaletteExtensionCommandsProvider _provider = new();
-
-    public CrcCommandPaletteExtension(ManualResetEvent extensionDisposedEvent)
-    {
-        this._extensionDisposedEvent = extensionDisposedEvent;
-    }
 
     public object? GetProvider(ProviderType providerType)
     {

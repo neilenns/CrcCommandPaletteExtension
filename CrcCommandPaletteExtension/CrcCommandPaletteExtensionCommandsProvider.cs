@@ -13,10 +13,11 @@ public partial class CrcCommandPaletteExtensionCommandsProvider : CommandProvide
 
     public CrcCommandPaletteExtensionCommandsProvider()
     {
-        DisplayName = "CRC";
-        Icon = Icons.Profile;
+        DisplayName = "VATSIM";
+        Icon = Icons.CrcProfile;
         _commands = [
-            new CommandItem(new CrcCommandPaletteExtensionPage()) { Title = DisplayName },
+            new CommandItem(new CrcCommandPaletteExtensionPage()) { Title = "CRC"},
+            new CommandItem(new VAtisCommandPaletteExtensionpage()) { Title = "vATIS" }
         ];
     }
 

@@ -4,5 +4,6 @@ namespace CrcCommandPaletteExtension;
 
 internal sealed class Icons
 {
-    internal static IconInfo Profile { get; } = IconHelpers.FromRelativePaths("Assets\\profile.light.png", "Assets\\profile.dark.png");
+    internal static IconInfo CrcProfile { get; } = IconHelpers.FromRelativePaths("Assets\\crcprofile.light.png", "Assets\\crcprofile.dark.png");
+    internal static IconInfo vAtisProfile { get; } = IconHelpers.FromRelativePaths("Assets\\vatisprofile.light.png", "Assets\\vatisprofile.dark.png");
 }

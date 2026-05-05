@@ -6,7 +6,6 @@ namespace CrcCommandPaletteExtension
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using System.Text.Json;
@@ -15,11 +14,11 @@ namespace CrcCommandPaletteExtension
     /// <summary>
     /// Maintains a list of CRC profiles.
     /// </summary>
-    public static class ProfileManager
+    public static class CrcProfileManager
     {
         private static readonly List<CrcProfile> Profiles = [];
 
-        private static readonly string CrcProfilePath = ProfileManager.GetCrcProfilePath();
+        private static readonly string CrcProfilePath = CrcProfileManager.GetCrcProfilePath();
 
         /// <summary>
         /// Gets the list of profiles.
@@ -42,7 +41,7 @@ namespace CrcCommandPaletteExtension
             {
                 // Issue #19: This ensures the profiles get reloaded every time a new query
                 // is started, so new profiles get picked up.
-                ProfileManager.LoadProfiles();
+                CrcProfileManager.LoadProfiles();
                 return CrcProfiles;
             }
 
@@ -57,22 +56,23 @@ namespace CrcCommandPaletteExtension
         {
             Profiles.Clear();
 
-            if (string.IsNullOrEmpty(ProfileManager.CrcProfilePath) || !Directory.Exists(ProfileManager.CrcProfilePath))
+            if (string.IsNullOrEmpty(CrcProfileManager.CrcProfilePath) || !Directory.Exists(CrcProfileManager.CrcProfilePath))
             {
                 return;
             }
 
-            var jsonFiles = Directory.GetFiles(ProfileManager.CrcProfilePath, "*.json");
+            var jsonFiles = Directory.GetFiles(CrcProfileManager.CrcProfilePath, "*.json");
 
             foreach (var file in jsonFiles)
             {
                 try
                 {
                     string jsonContent = File.ReadAllText(file);
-                    CrcProfile profile = JsonSerializer.Deserialize<CrcProfile>(jsonContent, options: new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true,
-                    });
+
+                    // Use source-generated metadata to avoid trimming/runtime-analysis
+                    // warnings for reflection-based serialization. The context is
+                    // generated from CrcJsonContext.
+                    CrcProfile? profile = JsonSerializer.Deserialize(jsonContent, CrcJsonContext.Default.CrcProfile);
 
                     if (profile != null)
                     {
@@ -94,14 +94,13 @@ namespace CrcCommandPaletteExtension
         {
             try
             {
-                using RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\CRC");
-                if (key != null)
+                using RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Software\CRC");
+                if (key is not null)
                 {
-                    object value = key.GetValue("Install_Dir");
-                    if (value != null)
+                    string? installDir = key.GetValue("Install_Dir") as string;
+                    if (!string.IsNullOrEmpty(installDir))
                     {
-                        string profileDir = Path.Combine(value.ToString(), "Profiles");
-                        return profileDir;
+                        return Path.Combine(installDir, "Profiles");
                     }
                 }
             }

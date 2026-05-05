@@ -19,7 +19,7 @@ namespace CrcCommandPaletteExtension
         /// <summary>
         /// Gets or sets the ID.
         /// </summary>
-        public string Id { get; set; }
+        public string Id { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the version.
@@ -29,12 +29,12 @@ namespace CrcCommandPaletteExtension
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the FilePath.
         /// </summary>
-        public string FilePath { get; set; }
+        public string FilePath { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the last used date.
@@ -44,31 +44,31 @@ namespace CrcCommandPaletteExtension
         /// <summary>
         /// Gets or sets the ARTCC ID.
         /// </summary>
-        public string ArtccId { get; set; }
+        public string ArtccId { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the last used environment.
         /// </summary>
-        public string LastUsedEnvironment { get; set; }
+        public string LastUsedEnvironment { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the last used position ID.
         /// </summary>
-        public string LastUsedPositionId { get; set; }
+        public string LastUsedPositionId { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the network rating.
         /// </summary>
-        public string NetworkRating { get; set; }
+        public string NetworkRating { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the role.
         /// </summary>
-        public string Role { get; set; }
+        public string Role { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the controller info.
         /// </summary>
-        public object ControllerInfo { get; set; }
+        public object? ControllerInfo { get; set; }
     }
 }

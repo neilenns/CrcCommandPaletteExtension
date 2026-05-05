@@ -11,12 +11,12 @@ using static Microsoft.CommandPalette.Extensions.Toolkit.ShellHelpers;
 
 namespace CrcCommandPaletteExtension;
 
-internal sealed partial class CrcCommandPaletteExtensionPage : DynamicListPage
+internal sealed partial class VAtisCommandPaletteExtensionpage : DynamicListPage
 {
-    public CrcCommandPaletteExtensionPage()
+    public VAtisCommandPaletteExtensionpage()
     {
         Icon = Icons.CrcProfile;
-        Title = "CRC profile launcher";
+        Title = "vATIS profile launcher";
         Name = "Launch profile";
     }
 
@@ -28,30 +28,26 @@ internal sealed partial class CrcCommandPaletteExtensionPage : DynamicListPage
     public override IListItem[] GetItems()
     {
         return [
-            .. CrcProfileManager.GetMatchingProfiles(SearchText).Select(profile =>
+            .. vAtisProfileManager.GetMatchingProfiles(SearchText).Select(profile =>
             {
                 var id = profile.Id;
 
                 AnonymousCommand launchCommand = new (() =>
                 {
-                    var appPath = Path.Combine(
-                        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                        "CRC", "Application", "crc.exe");
+                    var appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "org.vatsim.vatis", "current", "vATIS.exe");
 
-                    var arguments = $"--profile={id}";
-                    var workingDir = Path.GetDirectoryName(appPath) ?? "";
+                    var arguments = $"--profile {id}";
 
                     ShellHelpers.OpenInShell(
                         path: appPath,
                         arguments: arguments,
-                        workingDir: workingDir,
                         runAs: ShellRunAsType.None,
                         runWithHiddenWindow: false);
                 }) { Result = CommandResult.Dismiss() };
 
                 return new ListItem(launchCommand)
                 {
-                    Icon = Icons.CrcProfile,
+                    Icon = Icons.vAtisProfile,
                     Title = profile.Name
                 };
             })
